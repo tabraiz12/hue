@@ -110,7 +110,7 @@ const EXTEND_CONFIG_FILE = './webpack.config.extend.js';
 if (fs.existsSync(EXTEND_CONFIG_FILE)) {
   const endedConfig = require(EXTEND_CONFIG_FILE);
   endedConfig(config);
-  console.info('Webpack extended!');
+  console.info('Webpack extended2!');
 }
 
 module.exports = config;
