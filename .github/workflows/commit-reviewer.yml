@@ -41,7 +41,9 @@ jobs:
           bundler-cache: true
 
       - name: Setup goodcheck
-        run: gem specific_install -l https://github.com/tabraiz12/pronto-goodcheck.git -b pronto-check-filecomment
+        run: |
+          gem install specific_install
+          gem specific_install -l https://github.com/tabraiz12/pronto-goodcheck.git -b pronto-check-filecomment
       - name: Run Avenger Bot
         run: pronto run -f github_status github_pr -c origin/${{ github.base_ref }}
         env:
