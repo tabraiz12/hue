@@ -13,7 +13,8 @@ rules:
 
   - id: exclusionary_terminology
     pattern:
-      - (?:blacklist|whitelist)
+      - /(?:blacklist|whitelist)/
+      - /(?:master|slave)/
     message: These words are not allowed
     glob:
       - "*"
