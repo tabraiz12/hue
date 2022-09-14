@@ -73,6 +73,8 @@ urlpatterns += [
   re_path(r'^api/optimizer/statement/risk/?$', notebook_api.statement_risk, name='statement_risk'),
   re_path(r'^api/optimizer/statement/compatibility/?$', notebook_api.statement_compatibility, name='statement_compatibility'),
   re_path(r'^api/optimizer/statement/similarity/?$', notebook_api.statement_similarity, name='statement_similarity'),
+  re_path(r'^api/optimizer/statement/similarity_test/?$', notebook_api.statement_similarity, name='similarity_test'),
+  
 ]
 
 # Assist API
