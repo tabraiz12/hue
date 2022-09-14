@@ -1,5 +1,11 @@
-name: Pronto
-on: [pull_request_target]
+name: Avenger Bot
+on:
+  push:
+    branches:
+    - master
+  pull_request:
+    branches:
+    - master
 
 jobs:
   pronto:
