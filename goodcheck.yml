@@ -38,7 +38,8 @@ rules:
   - id: without_pattern
     message: |
       Read the operation manual for: https://example.com/guides/123
-    glob: webpack.config.js
+    glob:
+      - webpack.config.js
 
 exclude:
   - node_modules
