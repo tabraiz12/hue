@@ -27,7 +27,7 @@ else:
 
 # Views
 urlpatterns = [
-  re_path(r'^$', notebook_views.notebook, name='index'),
+  re_path(r'^$', notebook_views.notebook, name='index',
   re_path(r'^notebook/?$', notebook_views.notebook, name='notebook'),
   re_path(r'^notebook_embeddable/?$', notebook_views.notebook_embeddable, name='notebook_embeddable'),
   re_path(r'^notebooks/?$', notebook_views.notebooks, name='notebooks'),
