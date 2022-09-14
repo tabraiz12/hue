@@ -30,6 +30,12 @@ rules:
     glob:
       - "**/*"
 
+
+  - id: without_pattern
+    message: |
+      Read the operation manual for webpack: https://example.com/guides/123
+    glob: webpack.config.js
+
 exclude:
   - node_modules
   - vendor

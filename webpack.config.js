@@ -111,6 +111,7 @@ if (fs.existsSync(EXTEND_CONFIG_FILE)) {
   const endedConfig = require(EXTEND_CONFIG_FILE);
   endedConfig(config);
   console.info('Webpack extended!');
+  console.info('Webpack extended!');
 }
 
 module.exports = config;
