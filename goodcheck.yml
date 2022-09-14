@@ -15,9 +15,10 @@ rules:
     pattern:
       - /(?:blacklist|whitelist)/i
       - /(?:master|slave)/i
-    message: These words are not allowed
+    message: |
+      These words are exclusionary, Refer https://example.com/guides/123
     glob:
-      - "*"
+      - "**/*"
 
 exclude:
   - node_modules
