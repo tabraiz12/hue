@@ -13,9 +13,16 @@ rules:
 
   - id: exclusionary_terminology
     pattern:
-      - /(?:blacklist|whitelist)/
-      - /(?:master|slave)/
+      - /(?:blacklist|whitelist)/i
+      - /(?:master|slave)/i
     message: These words are not allowed
     glob:
       - "*"
 
+exclude:
+  - node_modules
+  - vendor
+  - assets/**/*.png
+  - goodcheck.yml
+
+exclude_binary: true

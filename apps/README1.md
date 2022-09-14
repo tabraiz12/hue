@@ -4,3 +4,8 @@ This words are exclusionery terms:
 
 BlackList
 test
+WhiteList
+master
+Master
+slave
+Slave
