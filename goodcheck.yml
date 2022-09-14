@@ -15,10 +15,15 @@ rules:
     pattern:
       - /(?:blacklist|whitelist)/i
       - /(?:master|slave)/i
+      - /(?:grandfather)/i
+      - /(?:Man hours)/i
+      - /(?:Sanity check)/i
+      - /(?:Dummy value)/i
+
     message: |
       These words are exclusionary,
 
-      Whitelist becomes Allowlist
+      Whitelist => Allowlist
       Blacklist => Denylist
       Master/Slave => Leader/Follower or Primary/Secondary or Active/Standby
       Grandfathered => Legacy status
@@ -26,15 +31,9 @@ rules:
       Sanity check => Quick check or Confidence check
       Dummy value => Sample value
 
-      Refer https://example.com/guides/123
+      Refer https://cloudera.atlassian.net/wiki/spaces/ENG/overview?homepageId=101482622
     glob:
       - "**/*"
-
-
-  - id: without_pattern
-    message: |
-      Read the operation manual for webpack: https://example.com/guides/123
-    glob: webpack.config.js
 
 exclude:
   - node_modules
