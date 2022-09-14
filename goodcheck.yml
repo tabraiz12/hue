@@ -12,8 +12,9 @@ rules:
       - "**/*.py"
 
   - id: exclusionary_terminology
-    pattern: (?i)(?<= |^)(whitelist|Blacklist)(?= |$)
+    pattern:
+      - /blacklist/i
     message: These words are not allowed
     glob:
-      - ".*"
+      - "*"
 
