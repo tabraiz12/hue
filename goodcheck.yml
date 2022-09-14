@@ -40,6 +40,7 @@ rules:
       Read the operation manual for: https://example.com/guides/123
     glob:
       - webpack.config.js
+      - package.json
 
 exclude:
   - node_modules
