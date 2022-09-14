@@ -16,7 +16,17 @@ rules:
       - /(?:blacklist|whitelist)/i
       - /(?:master|slave)/i
     message: |
-      These words are exclusionary, Refer https://example.com/guides/123
+      These words are exclusionary,
+
+      Whitelist becomes Allowlist
+      Blacklist => Denylist
+      Master/Slave => Leader/Follower or Primary/Secondary or Active/Standby
+      Grandfathered => Legacy status
+      Man hours => Person hours or Engineer hours
+      Sanity check => Quick check or Confidence check
+      Dummy value => Sample value
+
+      Refer https://example.com/guides/123
     glob:
       - "**/*"
 
