@@ -10,3 +10,10 @@ rules:
     message: DB Reviewers Assemble - Review Needed for the Hue DB Schema cc @tabraiz12
     glob:
       - "**/*.py"
+
+  - id: exclusionary_terminology
+    pattern: (?i)(?<= |^)(whitelist|Blacklist)(?= |$)
+    message: These words are not allowed
+    glob:
+      - ".*"
+
