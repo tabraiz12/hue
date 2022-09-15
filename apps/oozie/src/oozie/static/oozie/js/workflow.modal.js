@@ -113,7 +113,7 @@ var ModalModule = function($, ko) {
       });
     }
     $("*[rel=popover]").each(function(){
-      if ($(this).find("input").length > 0){
+      if ($(this).find("input").length  0){
         $(this).popover({
           placement:'right',
           trigger:'hover',
