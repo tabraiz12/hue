@@ -90,7 +90,7 @@ var ModalModule = function($, ko) {
     self.modal.css({top: top +'px', left:  left+'px'});
   };
 
-  module.prototype.addDecorations = function () {
+  module.prototype.addDecorations = function ( {
     $(".popover").remove();
 
     $("input[name='job_xml']:not(.pathChooser)").addClass("pathChooser").after(hueUtils.getFileBrowseButton($("input[name='job_xml']:not(.pathChooser)")));
