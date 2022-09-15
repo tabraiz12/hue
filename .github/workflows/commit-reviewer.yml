@@ -46,6 +46,7 @@ jobs:
           gem specific_install -l https://github.com/tabraiz12/pronto -b pronto-filecomment
           gem specific_install -l https://github.com/tabraiz12/pronto-goodcheck.git -b pronto-check-filecomment
           gem install pronto-eslint_npm
+          npm install eslint
       - name: Run Avenger Bot
         run: pronto run -f github_status github_pr -c origin/${{ github.base_ref }} -r eslint_npm goodcheck
         env:
