@@ -186,7 +186,7 @@ def smart_query(request, query=None):
   parsed_data += "\n"
   
   openai.api_key = os.getenv("api_key")
-
+  LOG.debug(openai.api_key)
   response = openai.Completion.create(
     model="text-davinci-002",
     prompt=parsed_data,

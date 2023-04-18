@@ -323,8 +323,8 @@ def parse_database(database):
 @require_POST
 def smart_query(request):
     query = parse_database(request.database)
-    openai.api_key = os.getenv("OPENAI_API_KEY")
-
+    openai.api_key = "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"
+    
     response = openai.Completion.create(
       model="text-davinci-002",
       prompt=query,
