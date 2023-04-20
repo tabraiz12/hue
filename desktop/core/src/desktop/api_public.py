@@ -39,7 +39,7 @@ from desktop.lib.connectors import api as connector_api
 from useradmin import views as useradmin_views, api as useradmin_api
 
 from beeswax import api as beeswax_api
-
+from desktop.conf import OPEN_AI_TOKEN
 
 LOG = logging.getLogger(__name__)
 
@@ -180,13 +180,14 @@ def autocomplete(request, server=None, database=None, table=None, column=None, n
 def smart_query(request, query=None):
   database = request.POST.get("database")
   query = request.POST.get("query")
+  
+  openai.api_key = OPEN_AI_TOKEN.get()
   parsed_data = parse_database(request, database)
   parsed_data += "\n"
   parsed_data += query
   parsed_data += "\n"
   
-  openai.api_key = os.getenv("api_key")
-  LOG.debug(openai.api_key)
+
   response = openai.Completion.create(
     model="text-davinci-002",
     prompt=parsed_data,

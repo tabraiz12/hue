@@ -205,6 +205,12 @@ X_FRAME_OPTIONS = Config(
   type=str,
   default="SAMEORIGIN")
 
+OPEN_AI_TOKEN = Config(
+  key="open_ai_token",
+  help=_("Open AI Token"),
+  type=str,
+  default="")
+
 HUE_IMAGE_VERSION = Config(
   key="hue_image_version",
   help=_("Image version of Hue"),
