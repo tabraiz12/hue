@@ -17,7 +17,6 @@
 
 import logging
 import json
-import openai
 import os
 from desktop.lib.django_util import JsonResponse
 
@@ -39,7 +38,9 @@ from desktop.lib.connectors import api as connector_api
 from useradmin import views as useradmin_views, api as useradmin_api
 
 from beeswax import api as beeswax_api
-from desktop.conf import OPEN_AI_TOKEN
+from desktop.lib.llm import llm
+import datetime
+from django.core.cache import cache
 
 LOG = logging.getLogger(__name__)
 
@@ -169,36 +170,38 @@ def get_sample_data(request, server=None, database=None, table=None, column=None
 
 @api_view(["POST"])
 def autocomplete(request, server=None, database=None, table=None, column=None, nested=None):
+
   django_request = get_django_request(request)
 
   _patch_operation_id_request(django_request)
-
   return notebook_api.autocomplete(django_request, server, database, table, column, nested)
 
 
 @api_view(["POST"])
-def smart_query(request, query=None):
+def generate_sql(request, query=None):
   database = request.POST.get("database")
-  query = request.POST.get("query")
+  query = request.POST.get("prompt")
   
-  openai.api_key = OPEN_AI_TOKEN.get()
-  parsed_data = parse_database(request, database)
-  parsed_data += "\n"
-  parsed_data += query
-  parsed_data += "\n"
-  
+  if llm.is_llm_sql_enabled():
+    parsed_data = parse_database(request, database)
+    generated_query = llm.generate_sql(query, parsed_data)
+    return JsonResponse(generated_query)
+  else:
+    return JsonResponse({
+      "message": "LLM SQL is not enabled on this server"
+    }, status=403)
 
-  response = openai.Completion.create(
-    model="text-davinci-002",
-    prompt=parsed_data,
-    temperature=0.7,
-    max_tokens=150,
-    top_p=1,
-    frequency_penalty=0,
-    presence_penalty=0,
-    stop=["#", ";"]
-  )
-  return JsonResponse(response)
+
+@api_view(["POST"])
+def chat(request, prompt=None, conversation_id=None):
+  prompt = request.POST.get("prompt")
+  if llm.is_llm_sql_enabled():
+    generated_response = llm.chat(prompt, conversation_id)
+    return JsonResponse(generated_response)
+  else:
+    return JsonResponse({
+      "message": "LLM SQL is not enabled on this server"
+    }, status=403)
 
 
 def parse_database(request, database=None):
@@ -207,23 +210,22 @@ def parse_database(request, database=None):
   _patch_operation_id_request(django_request)
 
   table = None
-  resp1 = notebook_api.autocomplete1(django_request, None, database, table, None, None)
-  
-  tables_list = []
-  for table in resp1["tables_meta"]:
-    tables_list.append(table["name"])
-  
-  parsed_data = ""
-  for table in tables_list:
-    resp2 = notebook_api.autocomplete1(django_request, None, database, table, None, None)
-    parsed_data += table
-    parsed_data += "("
-    temp_col = str(resp2["columns"])
-    final_col = temp_col[1:-1]
-    parsed_data += final_col
-    parsed_data += ")\n"
+  database_cache_key = f'parse_database:{database}'
+  cached_database = cache.get(database_cache_key)
 
-  return parsed_data
+  if cached_database:
+      return cached_database
+  
+  databases = notebook_api.autocomplete1(django_request, None, database, None, None, None)
+
+  database_details = {}
+  for table in databases["tables_meta"]:
+    table_details = notebook_api.autocomplete1(django_request, None, database, table['name'], None, None)
+    database_details[table['name']] = table_details['columns']
+
+  cache.set(database_cache_key, database_details, 30*60)
+  return database_details
+
 
 
 @api_view(["POST"])

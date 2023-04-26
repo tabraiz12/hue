@@ -157,5 +157,6 @@ urlpatterns += [
 ]
 
 urlpatterns += [
-  re_path(r'^editor/smart_query', api_public.smart_query, name='smart_query'),
+  re_path(r'^editor/generate_sql', api_public.generate_sql, name='generate_sql'),
+  re_path(r'^editor/chat', api_public.chat, name='chat'),
 ]
