@@ -19,9 +19,9 @@ import pdb
 from desktop.conf import LLM
 import openai
 
-def openai_completion_api(prompt, model=None, conversation_id=None):
-    pdb.set_trace()
+def openai_completion_api(prompt, type=None):
     if LLM.OPENAI.ENABLE.get():
+        prompt = prompt_type(type) + prompt
         try:
             openai_token = LLM.OPENAI.TOKEN.get()
             openai.api_key = openai_token
@@ -34,32 +34,18 @@ def openai_completion_api(prompt, model=None, conversation_id=None):
                 stop=None,
                 temperature=0.5
             )
-
-            return response
+            choices = response.choices[0]
+            text = choices.text.strip()
+            return text
         except:
             return "Error Encountered While Callling OpenAI API"
     else:
         return "Open AI Not Enabled"
-    
 
-def openai_chat_api(prompt):
-    pdb.set_trace()
-    if LLM.OPENAI.ENABLE.get():
-        try:
-            openai_token = LLM.OPENAI.TOKEN.get()
-            openai.api_key = openai_token
-            model = LLM.OPENAI.MODEL.get()
-            response = openai.ChatCompletion.create(
-                engine=model,
-                prompt=prompt,
-                max_tokens=150,
-                n=1,
-                stop=None,
-                temperature=0.5
-            )
-
-            return response
-        except:
-            return "Error Encountered While Callling OpenAI API"
-    else:
-        return "Open AI Not Enabled"
+def prompt_type(type):
+    if type=="generate_sql":
+        return "Act as SQL Generator, and generate a sql query for the following SQL with metadata:"
+    elif type=="explain":
+        return "Act as SQL Expert, and explain the following query:"
+    elif type=="auto_correct":
+        return "Act as SQL Expert, and Correct the following query:"

@@ -22,7 +22,7 @@ import logging as LOG
 import json
 import pdb
 
-from desktop.lib.llm.open_ai import openai_completion_api, openai_chat_api
+from desktop.lib.llm.open_ai import openai_completion_api
 # from open_ai import generate_openai_response
 
 def is_llm_sql_enabled():
@@ -51,8 +51,13 @@ def generate_sql(prompt, parsed_data):
 
     return response;  
 
-def chat(prompt, conversation_id=None):
-   return openai_completion_api(prompt)
+def chat(prompt, type="generate_sql", conversation_id=None):
+   response = {}
+
+   if LLM.OPENAI.ENABLE.get():
+      response['open_ai'] = openai_completion_api(prompt, type)
+   return response
+
 
 
   
