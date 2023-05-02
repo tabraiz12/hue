@@ -19,16 +19,23 @@ import pdb
 from desktop.conf import LLM
 import openai
 
-def openai_completion_api(prompt, type=None):
+
+def openai_completion_api(prompt, metadata=None, type=None):
     if LLM.OPENAI.ENABLE.get():
-        prompt = prompt_type(type) + prompt
+        prompt_data = ""
+        if type:
+            prompt_data = prompt_type(type)
+        if metadata:
+            prompt_data = prompt_data + str(metadata)
+
+        prompt_data = prompt_data + prompt
         try:
             openai_token = LLM.OPENAI.TOKEN.get()
             openai.api_key = openai_token
             model = LLM.OPENAI.MODEL.get()
             response = openai.Completion.create(
                 engine=model,
-                prompt=prompt,
+                prompt=prompt_data,
                 max_tokens=150,
                 n=1,
                 stop=None,
@@ -49,3 +56,9 @@ def prompt_type(type):
         return "Act as SQL Expert, and explain the following query:"
     elif type=="auto_correct":
         return "Act as SQL Expert, and Correct the following query:"
+    elif type=="correctandexplain":
+        return "Act as SQL Expert, and Correct and explain the following query and Wrap the corrected code in a <code> tag and the explaination in an <explain> tag:"
+    elif type=="nql":
+        return "Act as SQL Expert,Translate the NQL statement into SQL and wrap it a sql-tag.List the assumptions made about the DB data model and wrap it in an assumptions-tag.List missing DB data model information and wrap it in a missing-tag.:"
+    else:
+        return ""

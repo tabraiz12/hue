@@ -194,10 +194,12 @@ def generate_sql(request, query=None):
 
 @api_view(["POST"])
 def chat(request, prompt=None, conversation_id=None):
-  prompt = request.POST.get("prompt")
-  type = request.POST.get("type")
+  # request_data = json.loads(request.body)
+  prompt = request.data.get("prompt")
+  type = request.data.get("type")
+  metadata = request.data.get("metadata")
   if llm.is_llm_sql_enabled():
-    generated_response = llm.chat(prompt, type)
+    generated_response = llm.chat(prompt, metadata, type)
     return JsonResponse(generated_response)
   else:
     return JsonResponse({

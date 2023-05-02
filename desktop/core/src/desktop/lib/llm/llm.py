@@ -43,19 +43,16 @@ def generate_sql(prompt, parsed_data):
     response = {}
     prompt = f"{prompt}\nmetadata:{query_to_send}\nSQL:"
     if LLM.OPENAI.ENABLE.get():
-        open_ai_response = openai_completion_api(prompt, "text-davinci-003")
-
-        choices = open_ai_response.choices[0]
-        text = choices.text.strip()
+        open_ai_response = openai_completion_api(prompt)
         response['open_ai'] = text
 
     return response;  
 
-def chat(prompt, type="generate_sql", conversation_id=None):
+def chat(prompt, metadata=None, type="generate_sql", conversation_id=None):
    response = {}
 
    if LLM.OPENAI.ENABLE.get():
-      response['open_ai'] = openai_completion_api(prompt, type)
+      response['open_ai'] = openai_completion_api(prompt, metadata, type)
    return response
 
 
